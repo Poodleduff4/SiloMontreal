@@ -33,7 +33,7 @@ public class GeoDataReaderMuc implements GeoDataReader {
     public void readZoneCsv(String path) {
 //        TableDataSet zonalData = SiloUtil.readCSVfile(path);
         try {
-            FileReader filereader = new FileReader("/Volumes/SD/silo2/useCases/munich/test/gma/input/zoneSystem.csv");
+            FileReader filereader = new FileReader("C:\\Users\\lukeg\\Documents\\SiloMontreal\\useCases\\munich\\test\\gma\\input\\zoneSystem.csv");
             CSVReader csvReader = new CSVReader(filereader);
             int numZones = 5540;
             int[] zoneIds = new int[numZones]; // = zonalData.getColumnAsInt(ZONE_ID_COLUMN);

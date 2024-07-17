@@ -10,6 +10,7 @@ import de.tum.bgu.msm.data.geo.GeoData;
 import de.tum.bgu.msm.data.household.HouseholdData;
 import de.tum.bgu.msm.data.household.HouseholdUtil;
 import de.tum.bgu.msm.data.household.IncomeCategory;
+import de.tum.bgu.msm.io.GeneralCsvReader;
 import de.tum.bgu.msm.io.output.DefaultDwellingWriter;
 import de.tum.bgu.msm.properties.Properties;
 import de.tum.bgu.msm.utils.SiloUtil;
@@ -19,6 +20,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 import static de.tum.bgu.msm.data.dwelling.RealEstateUtils.RENT_CATEGORIES;
 
@@ -40,6 +42,7 @@ public class RealEstateDataManagerImpl implements RealEstateDataManager {
     private final Properties properties;
 
     public static int largestNoBedrooms;
+
 
     /**
      * Stores current shares of dwellings by quality levels. Updated once per year.
@@ -452,9 +455,12 @@ public class RealEstateDataManagerImpl implements RealEstateDataManager {
     private void readDevelopmentData() {
         String baseDirectory = Properties.get().main.baseDirectory;
 
+        GeneralCsvReader reader = new GeneralCsvReader(baseDirectory + Properties.get().geo.landUseAndDevelopmentFile);
+
         TableDataSet developmentTable = SiloUtil.readCSVfile(baseDirectory + Properties.get().geo.landUseAndDevelopmentFile);
 
-        int[] zoneIdData = developmentTable.getColumnAsInt("Zone");
+        int[] zoneIdData = reader.readInts("Zone");
+//        int[] zoneIdData = developmentTable.getColumnAsInt("Zone");
         Map<DwellingType, int[]> constraintData = new HashMap<>();
         for (DwellingType dwellingType : dwellingTypes.getTypes()) {
             constraintData.put(dwellingType, developmentTable.getColumnAsInt(dwellingType.toString()));

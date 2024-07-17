@@ -17,7 +17,9 @@ import de.tum.bgu.msm.data.vehicle.VehicleType;
 import de.tum.bgu.msm.properties.Properties;
 import de.tum.bgu.msm.util.matrices.IndexedDoubleMatrix1D;
 import de.tum.bgu.msm.utils.SiloUtil;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -135,38 +137,42 @@ public final class SummarizeData {
 
 
         for (Zone zone : dataContainer.getGeoData().getZones().values()) {
-        	int taz = zone.getId();
-            float avePrice = -1;
-            int ddThisZone = 0;
-            for (DwellingType dt : dwellingTypes) {
-                ddThisZone += dds[dwellingTypes.indexOf(dt)][taz];
-            }
-            if (ddThisZone > 0) {
-                avePrice = ((float) prices[taz]) / ddThisZone;
-            }
-            double autoAcc = dataContainer.getAccessibility().getAutoAccessibilityForZone(zone);
-            double transitAcc = dataContainer.getAccessibility().getTransitAccessibilityForZone(zone);
-            double availLand = dataContainer.getRealEstateDataManager().getAvailableCapacityForConstruction(taz);
+            try {
+                int taz = zone.getId();
+                float avePrice = -1;
+                int ddThisZone = 0;
+                for (DwellingType dt : dwellingTypes) {
+                    ddThisZone += dds[dwellingTypes.indexOf(dt)][taz];
+                }
+                if (ddThisZone > 0) {
+                    avePrice = ((float) prices[taz]) / ddThisZone;
+                }
+                double autoAcc = dataContainer.getAccessibility().getAutoAccessibilityForZone(zone);
+                double transitAcc = dataContainer.getAccessibility().getTransitAccessibilityForZone(zone);
+                double availLand = dataContainer.getRealEstateDataManager().getAvailableCapacityForConstruction(taz);
 //            Formatter f = new Formatter();
 //            f.format("%d,%f,%f,%d,%d,%d,%f,%f,%d", taz, autoAcc, transitAcc, pop[taz], hhs[taz], dds[taz], availLand, avePrice, jobs[taz]);
-            String txt = taz + "," + autoAcc + "," + transitAcc + "," + pop.getIndexed(taz) + "," + hhs[taz];
-            for (int inc = 0; inc <= Properties.get().main.incomeBrackets.length; inc++) {
-                txt = txt.concat("," + hhInc[inc][taz]);
-            }
-            for (DwellingType dt : dwellingTypes){
-                txt = txt.concat("," + dds[dwellingTypes.indexOf(dt)][taz]);
-            }
-            txt = txt.concat("," + availLand + "," + avePrice + "," + jobs[taz] + "," +
-                    // todo: make the summary application specific, Munich does not work with these race categories
-                    "0,0,0,0");
+                String txt = taz + "," + autoAcc + "," + transitAcc + "," + pop.getIndexed(taz) + "," + hhs[taz];
+                for (int inc = 0; inc <= Properties.get().main.incomeBrackets.length; inc++) {
+                    txt = txt.concat("," + hhInc[inc][taz]);
+                }
+                for (DwellingType dt : dwellingTypes) {
+                    txt = txt.concat("," + dds[dwellingTypes.indexOf(dt)][taz]);
+                }
+                txt = txt.concat("," + availLand + "," + avePrice + "," + jobs[taz] + "," +
+                        // todo: make the summary application specific, Munich does not work with these race categories
+                        "0,0,0,0");
 //                    modelContainer.getMove().getZonalRacialShare(taz, Race.white) + "," +
 //                    modelContainer.getMove().getZonalRacialShare(taz, Race.black) + "," +
 //                    modelContainer.getMove().getZonalRacialShare(taz, Race.hispanic) + "," +
 //                    modelContainer.getMove().getZonalRacialShare(taz, Race.other));
 //            String txt = f.toString();
-            String txt_2 = String.valueOf(year).concat(",").concat(txt);
-            resultFileSpatial(txt);
-            resultFileSpatial_2(txt_2);
+                String txt_2 = String.valueOf(year).concat(",").concat(txt);
+                resultFileSpatial(txt);
+                resultFileSpatial_2(txt_2);
+            }catch(Exception e) {
+                logger.log(Level.INFO, e.getMessage());
+            }
         }
     }
 
