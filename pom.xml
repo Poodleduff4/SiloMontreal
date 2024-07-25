@@ -80,6 +80,7 @@
 		<module>synthetic-population</module>
         <module>analysis</module>
         <module>extensions</module>
+        <module>useCases/GMA</module>
     </modules>
 
 	<build>

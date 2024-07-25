@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.TransportMode;
+import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.population.PopulationFactory;
 import org.matsim.contrib.dvrp.trafficmonitoring.TravelTimeUtils;
 import org.matsim.core.config.Config;
@@ -48,12 +49,11 @@ import org.matsim.vehicles.Vehicles;
 
 import java.io.File;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static de.tum.bgu.msm.properties.modules.TransportModelPropertiesModule.*;
+
+import de.tum.bgu.msm.io.LinkVolumesWriter;
 
 /**
  * @author dziemke, nkuehnel
@@ -161,6 +161,18 @@ public final class MatsimTransportModel implements TransportModel {
         final Controler controler = new Controler(assembledScenario);
 
         controler.run();
+        // Write link volume data to file for visualization purposes
+        LinkVolumesWriter linkWriter = new LinkVolumesWriter();
+        List<String[]> linkVolumeData = new ArrayList<>();
+
+        Set<Id<Link>> link_ids = controler.getVolumes().getLinkIds();
+        for (Id<Link> id:link_ids){
+            int[] linkVolume = controler.getVolumes().getVolumesForLink(id);
+            linkVolumeData.add(new String[]{id.toString(), String.valueOf(Arrays.stream(linkVolume).sum())});
+        }
+
+        LinkVolumesWriter.write(linkVolumeData);
+
         logger.warn("Running MATSim transport model for year " + year + " finished.");
 
         // Get travel Times from MATSim
