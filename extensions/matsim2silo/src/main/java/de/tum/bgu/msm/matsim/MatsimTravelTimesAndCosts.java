@@ -66,9 +66,9 @@ public final class MatsimTravelTimesAndCosts implements TravelTimes {
     public void update(MatsimData matsimData) {
         this.matsimData = matsimData;
         this.tripRouter = matsimData.createTripRouter();
-        this.skimsByMode.clear();
-        this.travelTimesFromRegion.clear();
-        this.travelTimesToRegion.clear();
+//        this.skimsByMode.clear();
+//        this.travelTimesFromRegion.clear();
+//        this.travelTimesToRegion.clear();
         updateSkims();
         updateRegionalTravelTimes();
     }
@@ -122,6 +122,7 @@ public final class MatsimTravelTimesAndCosts implements TravelTimes {
         travelTimesFromRegion.put(TransportMode.pt, travelTimesFromRegionPt);
         travelTimesToRegion.put(TransportMode.car, travelTimesToRegionCar);
         travelTimesToRegion.put(TransportMode.pt, travelTimesToRegionPt);
+        logger.info("Done updating minimal zone to region travel times");
     }
 
     @Override

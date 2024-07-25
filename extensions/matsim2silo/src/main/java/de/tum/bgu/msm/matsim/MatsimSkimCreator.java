@@ -32,7 +32,7 @@ public class MatsimSkimCreator {
         this.matsimData = provider;
     }
 
-    public IndexedDoubleMatrix2D createCarSkim(Collection<? extends de.tum.bgu.msm.data.Id> zones, int numberOfThreads, double peakHour_s) {
+    public IndexedDoubleMatrix2D  createCarSkim(Collection<? extends de.tum.bgu.msm.data.Id> zones, int numberOfThreads, double peakHour_s) {
         final int partitionSize = (int) ((double) zones.size() / numberOfThreads) + 1;
         Iterable<? extends List<? extends de.tum.bgu.msm.data.Id>> partitions = Iterables.partition(zones, partitionSize);
 

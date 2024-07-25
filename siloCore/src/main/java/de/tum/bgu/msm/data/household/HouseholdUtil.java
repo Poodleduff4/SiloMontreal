@@ -123,7 +123,7 @@ public class HouseholdUtil {
         double tempUtil;
         Person selectedPartner = null;
         for (Person partner : hh.getPersons().values()) {
-            if (!partner.equals(per) && partner.getGender() != per.getGender() && partner.getRole() == PersonRole.MARRIED) {
+            if (!partner.equals(per) && partner.getRole() == PersonRole.MARRIED) {
                 final int ageDiff = Math.abs(per.getAge() - partner.getAge());
                 if (ageDiff == 0) {
                     tempUtil = 2.;

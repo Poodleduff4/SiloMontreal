@@ -58,6 +58,8 @@ public class EducationModelMuc extends AbstractModel implements EducationModel {
         //TODO: Realschuln and Gymnasien
         //TODO: Hard code age and probability or set in the properties?
         final List<EducationEvent> events = new ArrayList<>();
+        if(true)
+            return events;
         for(Person person: dataContainer.getHouseholdDataManager().getPersons()) {
             Occupation occupation = person.getOccupation();
             switch (occupation){

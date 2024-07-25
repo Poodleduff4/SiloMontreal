@@ -160,6 +160,7 @@ public final class MatsimData {
     }
 
     TripRouter createTripRouter() {
+        System.out.println("MatsimData:163      CREATE TRIP ROUTER");
         Scenario scenario = ScenarioUtils.loadScenario(config);
         RoutingModule accessEgressToNetworkRouter = DefaultRoutingModules.createTeleportationRouter(TransportMode.walk, scenario, config.plansCalcRoute().getModeRoutingParams().get(TransportMode.walk));
 
@@ -187,6 +188,7 @@ public final class MatsimData {
         TripRouter.Builder bd = new TripRouter.Builder(config);
         bd.setRoutingModule(TransportMode.car, carRoutingModule);
         bd.setRoutingModule(TransportMode.pt, ptRoutingModule);
+        System.out.println("MatsimData:191      DONE CREATE TRIP ROUTER");
         return bd.build();
     }
 
