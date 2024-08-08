@@ -8,6 +8,7 @@ import de.tum.bgu.msm.data.Zone;
 import de.tum.bgu.msm.data.geo.GeoData;
 import de.tum.bgu.msm.data.person.Person;
 import de.tum.bgu.msm.data.travelTimes.TravelTimes;
+import de.tum.bgu.msm.io.output.OmxMatrixWriter;
 import de.tum.bgu.msm.properties.Properties;
 import de.tum.bgu.msm.util.matrices.IndexedDoubleMatrix2D;
 import org.apache.log4j.Logger;
@@ -25,12 +26,14 @@ import org.matsim.core.network.NetworkUtils;
 import org.matsim.core.population.routes.NetworkRoute;
 import org.matsim.core.router.*;
 import org.matsim.core.utils.geometry.CoordUtils;
-import org.matsim.core.utils.misc.Time;
 import org.matsim.facilities.ActivityFacilitiesFactory;
 import org.matsim.facilities.ActivityFacilitiesFactoryImpl;
 import org.matsim.facilities.ActivityFacility;
 import org.matsim.facilities.Facility;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -66,17 +69,52 @@ public final class MatsimTravelTimesAndCosts implements TravelTimes {
     public void update(MatsimData matsimData) {
         this.matsimData = matsimData;
         this.tripRouter = matsimData.createTripRouter();
-//        this.skimsByMode.clear();
-//        this.travelTimesFromRegion.clear();
-//        this.travelTimesToRegion.clear();
+        this.skimsByMode.clear();
+        this.travelTimesFromRegion.clear();
+        this.travelTimesToRegion.clear();
         updateSkims();
         updateRegionalTravelTimes();
     }
 
     private void updateSkims() {
         logger.info("Updating car and pt skim.");
-        getPeakSkim(TransportMode.car);
-        getPeakSkim(TransportMode.pt);
+        IndexedDoubleMatrix2D carSkim = getPeakSkim(TransportMode.car);
+        IndexedDoubleMatrix2D ptSkim = getPeakSkim(TransportMode.pt);
+        int numberOfZones = zones.size();
+        BufferedWriter outputWriter = null;
+        try {
+            outputWriter = new BufferedWriter(new FileWriter("C:\\Users\\lukeg\\Documents\\SiloMontreal\\useCases\\munich\\test\\gma\\scenOutput\\GMAtest\\skimLookupTables.txt"));
+
+
+            outputWriter.write("rowLookupCar\n");
+            int[] rowLookupCar = carSkim.getRowLookupArray();
+            outputWriter.write(Arrays.toString(rowLookupCar)+'\n');
+
+            outputWriter.write("colLookupCar\n");
+            int[] colLookupCar = carSkim.getColumnLookupArray();
+            outputWriter.write(Arrays.toString(colLookupCar)+'\n');
+
+            outputWriter.write("rowLookupPt\n");
+            int[] rowLookupPt = ptSkim.getRowLookupArray();
+            outputWriter.write(Arrays.toString(rowLookupPt)+'\n');
+
+            outputWriter.write("colLookupPt\n");
+            int[] colLookupPt = ptSkim.getColumnLookupArray();
+            outputWriter.write(Arrays.toString(colLookupPt)+'\n');
+
+            outputWriter.flush();
+            outputWriter.close();
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        OmxMatrixWriter.createOmxFile("C:\\Users\\lukeg\\Documents\\SiloMontreal\\useCases\\munich\\test\\gma\\scenOutput\\GMAtest\\outputSkimsGMA.omx", 5540);
+        OmxMatrixWriter.createOmxSkimMatrix(carSkim, "C:\\Users\\lukeg\\Documents\\SiloMontreal\\useCases\\munich\\test\\gma\\scenOutput\\GMAtest\\outputSkimsGMA.omx", "carSkim");
+        OmxMatrixWriter.createOmxSkimMatrix(carSkim, "C:\\Users\\lukeg\\Documents\\SiloMontreal\\useCases\\munich\\test\\gma\\scenOutput\\GMAtest\\outputSkimsGMA.omx", "ptSkim");
+
     }
 
     private void updateRegionalTravelTimes() {

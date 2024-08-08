@@ -9,7 +9,7 @@ public class LinkVolumesWriter {
     public static CSVWriter writer;
     public LinkVolumesWriter(){
         try {
-            CSVWriter writer = new CSVWriter(new FileWriter("/Volumes/SD/silo2/useCases/munich/test/gma/scenOutput/GMAtest/outputLinkVolumes.csv"));
+            writer = new CSVWriter(new FileWriter("C:\\Users\\lukeg\\Documents\\SiloMontreal\\useCases\\munich\\test\\gma\\scenOutput\\GMAtest\\outputLinkVolumes.csv"));
         }
         catch(Exception e){
             System.out.println("BROKEN writer");

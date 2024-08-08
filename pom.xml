@@ -80,7 +80,7 @@
 		<module>synthetic-population</module>
         <module>analysis</module>
         <module>extensions</module>
-        <module>useCases/GMA</module>
+        <module>useCases/munich</module>
     </modules>
 
 	<build>

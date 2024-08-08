@@ -70,7 +70,7 @@ public class ModelContainer {
         eventModels.put(MarriageEvent.class, marriageModel);
         eventModels.put(DivorceEvent.class, divorceModel);
         eventModels.put(LicenseEvent.class, driversLicenseModel);
-//        eventModels.put(EducationEvent.class, educationModel);
+//        eventModels.put(EducationEvent.class, educationModel);    NO SCHOOLS FOR GMA
         eventModels.put(EmploymentEvent.class, employmentModel);
         eventModels.put(LeaveParentsEvent.class, leaveParentHhModel);
         eventModels.put(ConstructionEvent.class, constructionModel);
