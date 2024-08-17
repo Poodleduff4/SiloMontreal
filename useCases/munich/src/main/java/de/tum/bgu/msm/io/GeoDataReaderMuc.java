@@ -15,6 +15,7 @@ import org.opengis.feature.simple.SimpleFeature;
 import com.opencsv.CSVReader;
 
 import java.io.FileReader;
+import java.util.Arrays;
 
 public class GeoDataReaderMuc implements GeoDataReader {
 
@@ -33,7 +34,7 @@ public class GeoDataReaderMuc implements GeoDataReader {
     public void readZoneCsv(String path) {
 //        TableDataSet zonalData = SiloUtil.readCSVfile(path);
         try {
-            FileReader filereader = new FileReader("C:\\Users\\lukeg\\Documents\\SiloMontreal\\useCases\\munich\\test\\gma\\input\\zoneSystem.csv");
+            FileReader filereader = new FileReader("/Volumes/SD/SILO/useCases/munich/test/gma/input/zoneSystem.csv");
             CSVReader csvReader = new CSVReader(filereader);
             int numZones = 5540;
             int[] zoneIds = new int[numZones]; // = zonalData.getColumnAsInt(ZONE_ID_COLUMN);
@@ -51,6 +52,7 @@ public class GeoDataReaderMuc implements GeoDataReader {
 //                if (lineNum == 0)
 //                    continue;
                 System.out.println(lineNum);
+                System.out.println(Arrays.toString(next));
                 zoneIds[lineNum] = Integer.parseInt(next[0]);
                 zoneAreas[lineNum] = Float.parseFloat(next[1]);
                 ptDistances[lineNum] = Double.parseDouble(next[2]);
