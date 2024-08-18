@@ -75,8 +75,13 @@ public final class MatsimTravelTimesAndCosts implements TravelTimes {
 
     private void updateSkims() {
         logger.info("Updating car and pt skim.");
+        System.out.println("Total MB: " + (double) (Runtime.getRuntime().totalMemory()) / 1024 / 1024);
         getPeakSkim(TransportMode.car);
+        System.out.println("Total MB: " + (double) (Runtime.getRuntime().totalMemory()) / 1024 / 1024);
+        System.out.println("Used MB: " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024);
         getPeakSkim(TransportMode.pt);
+        System.out.println("Total MB: " + (double) (Runtime.getRuntime().totalMemory()) / 1024 / 1024);
+        System.out.println("Used MB: " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024);
     }
 
     private void updateRegionalTravelTimes() {

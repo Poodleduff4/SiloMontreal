@@ -83,11 +83,13 @@ public final class Simulator {
         logger.info("  Running annual models");
         for(ModelUpdateListener modelUpdateListener : modelUpdateListeners) {
             modelUpdateListener.prepareYear(year);
+            System.out.println("Used MB: " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024);
             timeTracker.recordAndReset("PreparationFor" + modelUpdateListener.getClass().getSimpleName());
         }
         logger.info("  Preparing and creating events");
         for(EventModel<MicroEvent> model: models.values()) {
             model.prepareYear(year);
+            System.out.println("Used MB: " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024);
             events.addAll(model.getEventsForCurrentYear(year));
             timeTracker.recordAndReset("PreparationFor" + model.getClass().getSimpleName());
         }

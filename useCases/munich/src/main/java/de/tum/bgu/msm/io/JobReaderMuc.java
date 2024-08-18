@@ -53,6 +53,9 @@ public class JobReaderMuc implements JobReader {
                 int zoneId = Integer.parseInt(lineElements[posZone]);
                 int worker = Integer.parseInt(lineElements[posWorker]);
                 String type = lineElements[posType].replace("\"", "");
+                if(type.equals(("?"))){
+                    type = "Serv";
+                }
 
                 Coordinate coordinate = new Coordinate(Double.parseDouble(lineElements[posCoordX]), Double.parseDouble(lineElements[posCoordY]));
 

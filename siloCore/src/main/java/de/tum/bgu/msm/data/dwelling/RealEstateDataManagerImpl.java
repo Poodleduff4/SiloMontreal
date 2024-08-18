@@ -2,6 +2,7 @@ package de.tum.bgu.msm.data.dwelling;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
+import com.opencsv.CSVReader;
 import de.tum.bgu.msm.common.datafile.TableDataSet;
 import de.tum.bgu.msm.data.Zone;
 import de.tum.bgu.msm.data.development.Development;
@@ -15,6 +16,7 @@ import de.tum.bgu.msm.properties.Properties;
 import de.tum.bgu.msm.utils.SiloUtil;
 import org.apache.log4j.Logger;
 
+import java.io.FileReader;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -452,30 +454,49 @@ public class RealEstateDataManagerImpl implements RealEstateDataManager {
     private void readDevelopmentData() {
         String baseDirectory = Properties.get().main.baseDirectory;
 
-        TableDataSet developmentTable = SiloUtil.readCSVfile(baseDirectory + Properties.get().geo.landUseAndDevelopmentFile);
+        try {
+            FileReader filereader = new FileReader(baseDirectory + Properties.get().geo.landUseAndDevelopmentFile);
+            CSVReader csvReader = new CSVReader(filereader);
+            int numZones = 5540;
+            int[] zoneIds = new int[numZones]; // = zonalData.getColumnAsInt(ZONE_ID_COLUMN);
+            Map<DwellingType, int[]> constraintData = new HashMap<>();
+            int[] dwellingCapacityData = new int[numZones];
+            double[] landUseData = new double[numZones];
 
-        int[] zoneIdData = developmentTable.getColumnAsInt("Zone");
-        Map<DwellingType, int[]> constraintData = new HashMap<>();
-        for (DwellingType dwellingType : dwellingTypes.getTypes()) {
-            constraintData.put(dwellingType, developmentTable.getColumnAsInt(dwellingType.toString()));
-        }
-        int[] dwellingCapacityData = developmentTable.getColumnAsInt("DevCapacity");
-        double[] landUseData = developmentTable.getColumnAsDouble("DevLandUse");
 
-        for (int i = 0; i < zoneIdData.length; i++) {
-            if(geoData.getZones().containsKey(zoneIdData[i])) {
+            String[] next;
+            int lineNum = 0;
+            csvReader.readNext();
+            while ((next = csvReader.readNext()) != null) {
+//                if (lineNum == 0)
+//                    continue;
+                System.out.println(lineNum);
+                zoneIds[lineNum] = Integer.parseInt(next[0]);
+                System.out.println(zoneIds[lineNum]);
+                System.out.println(Arrays.toString(next));
+                if(geoData.getZones().containsKey(zoneIds[lineNum])) {
+                    System.out.println("Contained");
 
-                Map<DwellingType, Boolean> constraints = new HashMap<>();
-                for (DwellingType dwellingType : dwellingTypes.getTypes()) {
-                    constraints.put(dwellingType, constraintData.get(dwellingType)[i] == 1);
+                    Map<DwellingType, Boolean> constraints = new HashMap<>();
+                    for (DwellingType dwellingType : dwellingTypes.getTypes()) {
+                        constraints.put(dwellingType, true);
+                    }
+                    int thisDwellingCap = (int) Float.parseFloat(next[6]);
+                    double thisLandUse = Float.parseFloat(next[7]);
+
+                    dwellingCapacityData[lineNum] = thisDwellingCap;
+                    landUseData[lineNum] = thisLandUse;
+
+                    Development development = new DevelopmentImpl(thisLandUse, thisDwellingCap, constraints, Properties.get().geo.useCapacityForDwellings);
+                    geoData.getZones().get(zoneIds[lineNum]).setDevelopment(development);
                 }
-                int thisZoneCapacity = (int) (dwellingCapacityData[i] * properties.main.scaleFactor);
-                double thisZoneLandUse = landUseData[i] * properties.main.scaleFactor;
 
-                Development development = new DevelopmentImpl(thisZoneLandUse, thisZoneCapacity, constraints, Properties.get().geo.useCapacityForDwellings);
-                geoData.getZones().get(zoneIdData[i]).setDevelopment(development);
+                lineNum++;
             }
-        }
+            System.out.println("lines read from development.csv: " + lineNum);
+
+        }catch(Exception e){
+            System.out.println(e);}
 
     }
 

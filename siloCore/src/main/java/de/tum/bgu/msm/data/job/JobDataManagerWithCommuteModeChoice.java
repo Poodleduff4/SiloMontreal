@@ -184,7 +184,10 @@ public class JobDataManagerWithCommuteModeChoice implements UpdateListener, JobD
             int zoneId = job.getZoneId();
             String jobType = job.getType();
             if(jobCountBaseyear.containsKey(zoneId)) {
-                jobCountBaseyear.get(zoneId).put(jobType, jobCountBaseyear.get(zoneId).get(jobType) + 1);
+                try {
+                    jobCountBaseyear.get(zoneId).put(jobType, jobCountBaseyear.get(zoneId).get(jobType) + 1);
+                }catch(NullPointerException e){
+                    System.out.println("SOMETING BROKEN at JobDataManagerWithCommuteModeChoice:190");}
             }
         }
         logger.info("Count of jobs in synthetic population of the base year completed");
