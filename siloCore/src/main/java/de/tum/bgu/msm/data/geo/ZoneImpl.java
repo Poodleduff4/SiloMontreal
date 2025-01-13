@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class ZoneImpl implements Zone {
 
-    private final float id;
+    private final int id;
     private final float area_sqmi;
 
     private final Region region;
@@ -29,14 +29,14 @@ public class ZoneImpl implements Zone {
 
     private final Map<String, Object> attributes = new HashMap<>();
 
-    public ZoneImpl(float id, float area_sqmi, Region region) {
+    public ZoneImpl(int id, float area_sqmi, Region region) {
         this.id = id;
         this.area_sqmi = area_sqmi;
         this.region = region;
     }
 
     @Override
-    public float getZoneId() {
+    public int getZoneId() {
         return this.id;
     }
 
