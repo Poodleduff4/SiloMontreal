@@ -131,7 +131,7 @@ public class HousingStrategyMuc implements HousingStrategy {
 
 
         for (Person pp : hh.getPersons().values()) {
-            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -2) {
+            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -1) {
 
                 workDistanceUtility *= commuteModeChoiceMapping.getMode(pp).utility;
 

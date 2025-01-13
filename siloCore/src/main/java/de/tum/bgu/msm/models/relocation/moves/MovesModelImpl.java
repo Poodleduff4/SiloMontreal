@@ -45,7 +45,7 @@ public class MovesModelImpl extends AbstractModel implements MovesModel {
     public static boolean track = false;
 
     protected final static Logger logger = Logger.getLogger(MovesModelImpl.class);
-    private static final int MAX_NUMBER_DWELLINGS = 20;
+    private static final int MAX_NUMBER_DWELLINGS = 2;
 
     private final MovesStrategy movesStrategy;
     private final HousingStrategy housingStrategy;
@@ -445,7 +445,12 @@ public class MovesModelImpl extends AbstractModel implements MovesModel {
                 final UtilityTask poll = queue.poll();
                 if (poll != null) {
                     final Dwelling dwelling = poll.dwelling;
-                    final double util = strategy.calculateHousingUtility(poll.household, dwelling);
+                    double util = 0.00;
+                    try {
+                        util = strategy.calculateHousingUtility(poll.household, dwelling);
+                    }catch(NullPointerException e) {
+                        System.out.println("NULL at HH: " + poll.household.getId());
+                    }
                     double probability = strategy.calculateSelectDwellingProbability(util);
                     final int i = poll.id;
                     probabilities[i] = probability;

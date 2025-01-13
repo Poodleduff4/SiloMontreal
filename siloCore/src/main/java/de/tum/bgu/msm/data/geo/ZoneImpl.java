@@ -4,7 +4,6 @@ import de.tum.bgu.msm.data.Region;
 import de.tum.bgu.msm.data.Zone;
 import de.tum.bgu.msm.data.development.Development;
 import de.tum.bgu.msm.utils.SeededRandomPointsBuilder;
-import de.tum.bgu.msm.utils.SiloUtil;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -19,7 +18,7 @@ import java.util.Random;
 
 public class ZoneImpl implements Zone {
 
-    private final int id;
+    private final float id;
     private final float area_sqmi;
 
     private final Region region;
@@ -30,14 +29,14 @@ public class ZoneImpl implements Zone {
 
     private final Map<String, Object> attributes = new HashMap<>();
 
-    public ZoneImpl(int id, float area_sqmi, Region region) {
+    public ZoneImpl(float id, float area_sqmi, Region region) {
         this.id = id;
         this.area_sqmi = area_sqmi;
         this.region = region;
     }
 
     @Override
-    public int getZoneId() {
+    public float getZoneId() {
         return this.id;
     }
 

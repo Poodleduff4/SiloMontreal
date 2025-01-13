@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 import org.matsim.contrib.dvrp.run.Modal;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
-import de.tum.bgu.msm.test;
 
 /**
  * Implements SILO for the Munich Metropolitan Area
@@ -45,9 +44,6 @@ public class SiloMuc {
         System.out.println("Total MB: " + (double) (Runtime.getRuntime().totalMemory()) / 1024 / 1024);
         System.out.println("Used MB: " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024);
 
-//        test.read2(new DefaultDwellingTypes(), dataContainer.getRealEstateDataManager().getDwellingData(), new HouseholdDataImpl(), dataContainer.getGeoData(), new DwellingFactoryImpl(), properties);
-
-//        System.exit(0);
         SiloModel model = new SiloModel(properties, dataContainer, modelContainer);
         model.addResultMonitor(new MultiFileResultsMonitorMuc(dataContainer, properties));
         model.addResultMonitor(new ModalSharesResultMonitor(dataContainer, properties));

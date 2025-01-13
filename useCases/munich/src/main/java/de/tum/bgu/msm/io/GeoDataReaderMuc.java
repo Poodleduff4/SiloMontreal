@@ -33,10 +33,10 @@ public class GeoDataReaderMuc implements GeoDataReader {
     public void readZoneCsv(String path) {
 //        TableDataSet zonalData = SiloUtil.readCSVfile(path);
         try {
-            FileReader filereader = new FileReader("D:\\Luke\\Documents\\Silo\\useCases\\munich\\test\\gma\\input\\zoneSystem.csv");
+            FileReader filereader = new FileReader(path);
             CSVReader csvReader = new CSVReader(filereader);
             int numZones = 5540;
-            int[] zoneIds = new int[numZones]; // = zonalData.getColumnAsInt(ZONE_ID_COLUMN);
+            float[] zoneIds = new float[numZones]; // = zonalData.getColumnAsInt(ZONE_ID_COLUMN);
             float[] zoneAreas = new float[numZones]; // = zonalData.getColumnAsFloat("Area");
 
             double[] ptDistances = new double[numZones]; // = zonalData.getColumnAsDouble("distanceToTransit");
@@ -51,7 +51,7 @@ public class GeoDataReaderMuc implements GeoDataReader {
 //                if (lineNum == 0)
 //                    continue;
                 System.out.println(lineNum);
-                zoneIds[lineNum] = Integer.parseInt(next[0]);
+                zoneIds[lineNum] = Float.parseFloat(next[0]);
                 zoneAreas[lineNum] = Float.parseFloat(next[1]);
                 ptDistances[lineNum] = Double.parseDouble(next[2]);
                 areaTypes[lineNum] = Integer.parseInt(next[3]);
@@ -87,7 +87,7 @@ public class GeoDataReaderMuc implements GeoDataReader {
         }
         int counter = 0;
         for (SimpleFeature feature : ShapeFileReader.getAllFeatures(path)) {
-            int zoneId = Integer.parseInt(feature.getAttribute(SHAPE_IDENTIFIER).toString());
+            float zoneId = Float.parseFloat(feature.getAttribute(SHAPE_IDENTIFIER).toString());
             Zone zone = geoDataMuc.getZones().get(zoneId);
             if (zone != null) {
                 zone.setZoneFeature(feature);
