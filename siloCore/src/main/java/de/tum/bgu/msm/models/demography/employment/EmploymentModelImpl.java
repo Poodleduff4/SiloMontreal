@@ -187,8 +187,22 @@ public class EmploymentModelImpl extends AbstractModel implements EmploymentMode
         if (dwelling != null) {
             zone = dataContainer.getGeoData().getZones().get(dwelling.getZoneId());
         }
+        // replace this with below code to implement lina model
         return dataContainer.getJobDataManager().findVacantJob(
                 zone, dataContainer.getGeoData().getRegions().values());
+
+
+
+        // IN PYTHON FILE
+        // full_person_data = sql_db.query_on_person_id(pp.getId())
+        // model.call(person attributes, dwelling attributes)
+            // MODEL wil output a utility value between 0-1 for the specified job
+            // 0: bad job, don't choose job
+            // 1: best option based on person factors and job factors
+
+
+        // List<Obect> sql_db.query_on_person_id(int id)
+        
     }
 
     boolean takeNewJob(Person person, Job job) {

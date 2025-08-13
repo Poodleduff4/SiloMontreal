@@ -34,7 +34,9 @@ import org.matsim.api.core.v01.population.PopulationFactory;
 import org.matsim.contrib.dvrp.trafficmonitoring.TravelTimeUtils;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
-import org.matsim.core.config.groups.PlansCalcRouteConfigGroup;
+import org.matsim.core.config.groups.RoutingConfigGroup;
+//import org.matsim.core.config.groups.PlansConfigGroup;
+
 import org.matsim.core.controler.Controler;
 import org.matsim.core.controler.ControlerDefaults;
 import org.matsim.core.controler.OutputDirectoryHierarchy;
@@ -173,12 +175,12 @@ public final class MatsimTransportModel implements TransportModel {
     private void finalizeConfig(Config config, int year) {
         final String outputDirectoryRoot = properties.main.baseDirectory + "scenOutput/" + properties.main.scenarioName;
         String outputDirectory = outputDirectoryRoot + "/matsim/" + year + "/";
-        config.controler().setRunId(String.valueOf(year));
-        config.controler().setOutputDirectory(outputDirectory);
-        config.controler().setWritePlansInterval(Math.max(config.controler().getLastIteration(), 1));
-        config.controler().setWriteEventsInterval(Math.max(config.controler().getLastIteration(), 1));
-        config.controler().setOverwriteFileSetting(OutputDirectoryHierarchy.OverwriteFileSetting.deleteDirectoryIfExists);
-        config.plansCalcRoute().setRoutingRandomness(0.);
+        config.controller().setRunId(String.valueOf(year));
+        config.controller().setOutputDirectory(outputDirectory);
+        config.controller().setWritePlansInterval(Math.max(config.controller().getLastIteration(), 1));
+        config.controller().setWriteEventsInterval(Math.max(config.controller().getLastIteration(), 1));
+        config.controller().setOverwriteFileSetting(OutputDirectoryHierarchy.OverwriteFileSetting.deleteDirectoryIfExists);
+        config.routing().setRoutingRandomness(0.);
     }
 
     /**

@@ -2,7 +2,7 @@ package de.tum.bgu.msm.models.relocation;
 
 import de.tum.bgu.msm.data.household.IncomeCategory;
 import de.tum.bgu.msm.data.person.Nationality;
-import de.tum.bgu.msm.util.js.JavaScriptCalculator;
+import de.tum.bgu.msm.utils.JavaScriptCalculator;
 
 import java.io.InputStreamReader;
 import java.io.Reader;

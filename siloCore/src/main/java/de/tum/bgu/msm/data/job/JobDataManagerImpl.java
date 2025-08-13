@@ -398,6 +398,9 @@ public class JobDataManagerImpl implements UpdateListener, JobDataManager {
 
         List<Job> eligibleJobs = vacantJobsByRegion.get(selectedRegion);
         Job selectedJob = eligibleJobs.remove(SiloUtil.getRandomObject().nextInt(eligibleJobs.size()));
+        
+        
+
 
         if (selectedJob.getId() == SiloUtil.trackJj) {
             SiloUtil.trackWriter.println("Removed job " + selectedJob.getId() + " from list of vacant jobs.");

@@ -50,7 +50,7 @@ public class Matches {
         new MatsimNetworkReader(network).readFile("C:\\Users\\Nico\\tum\\fabilut\\gitproject\\muc/input\\mito\\trafficAssignment/studyNetworkDense.xml");
 
         LeastCostPathCalculatorFactory multiNodeFactory = new FastMultiNodeDijkstraFactory(true);
-        FreespeedTravelTimeAndDisutility freespeed = new FreespeedTravelTimeAndDisutility(ConfigUtils.createConfig().planCalcScore());
+        FreespeedTravelTimeAndDisutility freespeed = new FreespeedTravelTimeAndDisutility(ConfigUtils.createConfig().scoring());
 
 
 

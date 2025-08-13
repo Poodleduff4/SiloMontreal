@@ -20,7 +20,9 @@ import org.matsim.api.core.v01.population.Leg;
 import org.matsim.api.core.v01.population.PlanElement;
 import org.matsim.api.core.v01.population.Route;
 import org.matsim.core.config.Config;
-import org.matsim.core.config.groups.PlanCalcScoreConfigGroup;
+//import org.matsim.core.config.groups.PlanCalcScoreConfigGroup;
+import org.matsim.core.config.groups.RoutingConfigGroup;
+import org.matsim.core.config.groups.ScoringConfigGroup;
 import org.matsim.core.network.NetworkUtils;
 import org.matsim.core.population.routes.NetworkRoute;
 import org.matsim.core.router.*;
@@ -166,7 +168,7 @@ public final class MatsimTravelTimesAndCosts implements TravelTimes {
     public double getGeneralizedTravelCosts(Location origin, Location destination, double timeOfDay_s, String mode) {
         List<? extends PlanElement> planElements = getRoute(origin, destination, timeOfDay_s, mode, null);
         RoutingModule routingModule = tripRouter.getRoutingModule(mode);
-        PlanCalcScoreConfigGroup cnScoringGroup = config.planCalcScore();
+        ScoringConfigGroup cnScoringGroup = config.scoring();
 
         double utility = 0.;
         if (routingModule instanceof NetworkRoutingModule || routingModule instanceof NetworkRoutingInclAccessEgressModule) {
@@ -266,7 +268,7 @@ public final class MatsimTravelTimesAndCosts implements TravelTimes {
                     } else {
                         logger.warn("No schedule/ network provided for pt. Will use freespeed factor.");
                         skim = matsimSkimCreator.createFreeSpeedFactorSkim(zones.values(),
-                                config.plansCalcRoute().getModeRoutingParams().get(TransportMode.pt).getTeleportedModeFreespeedFactor(),
+                                config.routing().getTeleportedModeParams().get(TransportMode.pt).getTeleportedModeFreespeedFactor(),
                                 Properties.get().main.numberOfThreads, Properties.get().transportModel.peakHour_s);
                         break;
                     }

@@ -29,7 +29,7 @@ public class DataContainerWithSchoolsImpl extends DefaultDataContainer implement
             SchoolData schoolData, Properties properties) {
         super(geoData, realEstateDataManager, jobDataManager, householdDataManager,
         		travelTimes, accessibility, commutingTimeProbability, properties);
-        this.schoolData = schoolData;
+        this.schoolData = null;
     }
 
     @Override

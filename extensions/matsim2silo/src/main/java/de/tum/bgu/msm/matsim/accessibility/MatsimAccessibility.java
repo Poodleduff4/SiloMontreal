@@ -6,7 +6,7 @@ import java.util.Map;
 
 import de.tum.bgu.msm.data.accessibility.Accessibility;
 import org.apache.log4j.Logger;
-import org.jfree.util.Log;
+//import org.jfree.util.Log;
 import org.matsim.api.core.v01.Id;
 import org.matsim.contrib.accessibility.FacilityDataExchangeInterface;
 import org.matsim.core.utils.collections.Tuple;
@@ -124,7 +124,7 @@ public class MatsimAccessibility implements Accessibility, FacilityDataExchangeI
 
 	@Override
 	public void prepareYear(int year) {
-		Log.warn("Preparing year in accessibilities.");
+//		Log.warn("Preparing year in accessibilities.");
         calculateHansenAccessibilities(year);		
 	}
 

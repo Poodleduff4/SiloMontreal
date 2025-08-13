@@ -12,10 +12,17 @@
     <artifactId>matsim2silo</artifactId>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.matsim.contrib/dvrp -->
         <dependency>
             <groupId>org.matsim.contrib</groupId>
             <artifactId>dvrp</artifactId>
-            <version>${matsimVersion}</version>
+            <version>2024.0</version>
         </dependency>
+    
+      <dependency>
+        <groupId>io.github.agentsoz</groupId>
+        <artifactId>ees</artifactId>
+        <version>2.1.0</version>
+      </dependency>
     </dependencies>
 </project>

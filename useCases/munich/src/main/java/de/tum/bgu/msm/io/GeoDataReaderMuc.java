@@ -10,11 +10,25 @@ import de.tum.bgu.msm.data.geo.RegionImpl;
 import de.tum.bgu.msm.io.input.GeoDataReader;
 import de.tum.bgu.msm.utils.SiloUtil;
 import org.apache.log4j.Logger;
-import org.matsim.core.utils.gis.ShapeFileReader;
+import org.geotools.data.DataStoreFinder;
+import org.geotools.data.shapefile.ShapefileDataStore;
+import org.geotools.data.shapefile.shp.ShapefileReader;
+//import org.matsim.core.utils.gis.ShapeFileReader;
+import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.simple.SimpleFeatureIterator;
+import org.matsim.core.utils.gis.GeoFileReader;
 import org.opengis.feature.simple.SimpleFeature;
 import com.opencsv.CSVReader;
+import org.geotools.data.DataStore;
+import org.geotools.data.FileDataStore;
+import org.geotools.data.FileDataStoreFinder;
+import org.geotools.data.simple.SimpleFeatureSource;
 
+import java.io.File;
 import java.io.FileReader;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GeoDataReaderMuc implements GeoDataReader {
 
@@ -22,8 +36,8 @@ public class GeoDataReaderMuc implements GeoDataReader {
 
     private GeoData geoDataMuc;
 
-    private final String SHAPE_IDENTIFIER = "DAUID";
-    private final String ZONE_ID_COLUMN = "Zone";
+    private final String SHAPE_IDENTIFIER = "CT_ID";
+    private final String ZONE_ID_COLUMN = "CT_ID";
 
     public GeoDataReaderMuc(GeoData geoDataMuc) {
         this.geoDataMuc = geoDataMuc;
@@ -36,7 +50,7 @@ public class GeoDataReaderMuc implements GeoDataReader {
             FileReader filereader = new FileReader(path);
             CSVReader csvReader = new CSVReader(filereader);
             int numZones = 5540;
-            float[] zoneIds = new float[numZones]; // = zonalData.getColumnAsInt(ZONE_ID_COLUMN);
+            int[] zoneIds = new int[numZones]; // = zonalData.getColumnAsInt(ZONE_ID_COLUMN);
             float[] zoneAreas = new float[numZones]; // = zonalData.getColumnAsFloat("Area");
 
             double[] ptDistances = new double[numZones]; // = zonalData.getColumnAsDouble("distanceToTransit");
@@ -51,7 +65,7 @@ public class GeoDataReaderMuc implements GeoDataReader {
 //                if (lineNum == 0)
 //                    continue;
                 System.out.println(lineNum);
-                zoneIds[lineNum] = Float.parseFloat(next[0]);
+                zoneIds[lineNum] = Integer.parseInt(next[0]);
                 zoneAreas[lineNum] = Float.parseFloat(next[1]);
                 ptDistances[lineNum] = Double.parseDouble(next[2]);
                 areaTypes[lineNum] = Integer.parseInt(next[3]);
@@ -85,16 +99,41 @@ public class GeoDataReaderMuc implements GeoDataReader {
             logger.error("No shape file found!");
             throw new RuntimeException("No shape file found!");
         }
+
         int counter = 0;
-        for (SimpleFeature feature : ShapeFileReader.getAllFeatures(path)) {
-            float zoneId = Float.parseFloat(feature.getAttribute(SHAPE_IDENTIFIER).toString());
-            Zone zone = geoDataMuc.getZones().get(zoneId);
-            if (zone != null) {
-                zone.setZoneFeature(feature);
-            } else {
-                counter++;
+
+        try {
+            // Create a file data store for the shapefile
+            File shapeFile = new File(path);
+            FileDataStore dataStore = FileDataStoreFinder.getDataStore(shapeFile);
+            SimpleFeatureSource featureSource = dataStore.getFeatureSource();
+
+            // Get feature collection and iterate over features
+            SimpleFeatureCollection features = featureSource.getFeatures();
+            SimpleFeatureIterator iterator = features.features();
+
+            try {
+                while (iterator.hasNext()) {
+                    SimpleFeature feature = iterator.next();
+                    int zoneId = Integer.parseInt(feature.getAttribute(SHAPE_IDENTIFIER).toString());
+                    Zone zone = geoDataMuc.getZones().get(zoneId);
+                    if (zone != null) {
+                        zone.setZoneFeature(feature);
+                    } else {
+                        counter++;
+                    }
+                }
+            } finally {
+                iterator.close(); // Important: always close the iterator
             }
+
+            dataStore.dispose(); // Clean up resources
+
+        } catch (Exception e) {
+            logger.error("Error reading shapefile: " + e.getMessage(), e);
+            throw new RuntimeException("Failed to read shapefile", e);
         }
+
         if(counter > 0) {
             logger.warn("There were " + counter + " shapes that do not exist in silo zone system");
         }

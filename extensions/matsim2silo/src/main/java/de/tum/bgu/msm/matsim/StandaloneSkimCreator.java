@@ -74,7 +74,7 @@ public class StandaloneSkimCreator {
 
         logger.info("Preparing MATSim data...");
         MatsimData data = new MatsimData(config, threads, network, schedule, zoneConnectorManager);
-        FreespeedTravelTimeAndDisutility freespeed = new FreespeedTravelTimeAndDisutility(config.planCalcScore());
+        FreespeedTravelTimeAndDisutility freespeed = new FreespeedTravelTimeAndDisutility(config.scoring());
         data.update(freespeed, freespeed);
 
         final MatsimSkimCreator matsimSkimCreator = new MatsimSkimCreator(data);

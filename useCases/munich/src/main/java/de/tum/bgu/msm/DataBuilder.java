@@ -1,5 +1,6 @@
 package de.tum.bgu.msm;
 
+import de.tum.bgu.msm.container.DefaultDataContainer;
 import de.tum.bgu.msm.data.accessibility.*;
 import de.tum.bgu.msm.data.dwelling.*;
 import de.tum.bgu.msm.data.geo.DefaultGeoData;
@@ -74,10 +75,64 @@ public class DataBuilder {
                 householdData, dwellingData, new PersonFactoryMuc(),
                 hhFactory, properties, realEstateDataManager);
 
-        SchoolData schoolData = new SchoolDataImpl(geoData, dwellingData, properties);
+//        SchoolData schoolData = new SchoolDataImpl(geoData, dwellingData, properties);
 
         return new DataContainerWithSchoolsImpl(geoData, realEstateDataManager, jobDataManager, householdDataManager, travelTimes, accessibility,
-        		commutingTimeProbability, schoolData, properties);
+        		commutingTimeProbability, null, properties);
+    }
+
+    public static DefaultDataContainer getModelDataForGTHA(Properties properties, Config config) {
+        HouseholdData householdData = new HouseholdDataImpl();
+        JobData jobData = new JobDataImpl();
+        DwellingData dwellingData = new DwellingDataImpl();
+
+        GeoData geoData = new DefaultGeoData();
+
+
+        TravelTimes travelTimes = null;
+        Accessibility accessibility = null;
+
+        switch (properties.transportModel.travelTimeImplIdentifier) {
+            case SKIM:
+                travelTimes = new SkimTravelTimes();
+                accessibility = new AccessibilityImpl(geoData, travelTimes, properties, dwellingData, jobData);
+                break;
+            case MATSIM:
+                travelTimes = new MatsimTravelTimesAndCosts(config);
+//                accessibility = new MatsimAccessibility(geoData);
+                accessibility = new AccessibilityImpl(geoData, travelTimes, properties, dwellingData, jobData);
+                break;
+            default:
+                throw new RuntimeException("Travel time not recognized! Please set property \"travel.time\" accordingly!");
+        }
+
+        CommutingTimeProbability commutingTimeProbability =
+                new CommutingTimeProbabilityExponential(properties.accessibility.betaTimeCarExponentialCommutingTime,
+                        properties.accessibility.betaTimePtExponentialCommutingTime);
+
+        //TODO: revise this!
+        new JobType(properties.jobData.jobTypes);
+
+
+        JobFactoryMuc jobFactory = new JobFactoryMuc();
+        jobFactory.readWorkingTimeDistributions(properties);
+
+
+        RealEstateDataManager realEstateDataManager = new RealEstateDataManagerImpl(
+                new DefaultDwellingTypes(), dwellingData, householdData, geoData, new DwellingFactoryImpl(), properties);
+
+        JobDataManager jobDataManager = new JobDataManagerWithCommuteModeChoice(
+                properties, jobFactory, jobData, geoData, travelTimes,
+                commutingTimeProbability, new SimpleCommuteModeChoice(commutingTimeProbability,
+                travelTimes, geoData, properties, SiloUtil.provideNewRandom()));
+
+        final HouseholdFactoryMuc hhFactory = new HouseholdFactoryMuc();
+        HouseholdDataManager householdDataManager = new HouseholdDataManagerImpl(
+                householdData, dwellingData, new PersonFactoryMuc(),
+                hhFactory, properties, realEstateDataManager);
+
+        return new DefaultDataContainer(geoData, realEstateDataManager, jobDataManager, householdDataManager, travelTimes, accessibility,
+                commutingTimeProbability, properties);
     }
 
     static public void read(Properties properties, DataContainerWithSchools dataContainer){
@@ -108,9 +163,9 @@ public class DataBuilder {
         String jobsFile = properties.main.baseDirectory + properties.jobData.jobsFileName + "_" + year + ".csv";
         jjReader.readData(jobsFile);
 
-        SchoolReader ssReader = new SchoolReaderImpl(dataContainer.getSchoolData());
-        String schoolsFile = properties.main.baseDirectory + properties.schoolData.schoolsFileName + "_" + year + ".csv";
-        ssReader.readData(schoolsFile);
+//        SchoolReader ssReader = new SchoolReaderImpl(dataContainer.getSchoolData());
+//        String schoolsFile = properties.main.baseDirectory + properties.schoolData.schoolsFileName + "_" + year + ".csv";
+//        ssReader.readData(schoolsFile);
 
         MicroDataScaler microDataScaler = new MicroDataScaler(dataContainer, properties);
         microDataScaler.scale();

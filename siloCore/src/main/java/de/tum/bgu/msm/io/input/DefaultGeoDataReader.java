@@ -8,8 +8,13 @@ import de.tum.bgu.msm.data.geo.RegionImpl;
 import de.tum.bgu.msm.data.geo.ZoneImpl;
 import de.tum.bgu.msm.utils.SiloUtil;
 import org.apache.log4j.Logger;
-import org.matsim.core.utils.gis.ShapeFileReader;
+//import org.geotools.api.feature.simple.SimpleFeature;
+import org.matsim.core.utils.gis.GeoFileReader;
 import org.opengis.feature.simple.SimpleFeature;
+
+import org.matsim.core.utils.gis.ShapeFileReader;
+import org.matsim.core.utils.gis.ShapeFileReader;
+import org.geotools.feature.simple.SimpleFeatureImpl;
 
 public class DefaultGeoDataReader implements GeoDataReader {
 
@@ -53,7 +58,7 @@ public class DefaultGeoDataReader implements GeoDataReader {
             logger.error("No shape file found!");
             throw new RuntimeException("No shape file found!");
         }
-        for (SimpleFeature feature : ShapeFileReader.getAllFeatures(path)) {
+        for (SimpleFeature feature : GeoFileReader.getAllFeatures(path)) {
             int zoneId = Integer.parseInt(feature.getAttribute(SHAPE_IDENTIFIER).toString());
             Zone zone = geoData.getZones().get(zoneId);
             if (zone != null) {

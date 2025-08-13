@@ -1,5 +1,6 @@
 package de.tum.bgu.msm;
 
+import de.tum.bgu.msm.container.DefaultDataContainer;
 import de.tum.bgu.msm.container.ModelContainer;
 import de.tum.bgu.msm.data.dwelling.DefaultDwellingTypes;
 import de.tum.bgu.msm.data.dwelling.DwellingFactoryImpl;
@@ -13,20 +14,21 @@ import de.tum.bgu.msm.schools.DataContainerWithSchools;
 import de.tum.bgu.msm.DataBuilder;
 import de.tum.bgu.msm.utils.SiloUtil;
 import org.apache.log4j.Logger;
-import org.matsim.contrib.dvrp.run.Modal;
+//import org.matsim.contrib.dvrp.run.Modal;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
+import org.matsim.households.Household;
 
 
 /**
- * Implements SILO for the Munich Metropolitan Area
+ * Implements SILO for the Greater Toronto and Hamilton Area
  *
- * @author Rolf Moeckel and Ana Moreno
- * Created on May 12, 2016 in Munich, Germany
+ * @author Luke Guardino
+ * Modified on Aug 12, 2025 in Toronto, Canada
  */
 public class SiloGTHA {
 
-    private final static Logger logger = Logger.getLogger(SiloMuc.class);
+    private final static Logger logger = Logger.getLogger(SiloGTHA.class);
 
     public static void main(String[] args) {
 
@@ -45,7 +47,6 @@ public class SiloGTHA {
         ModelContainer modelContainer = ModelBuilderMuc.getModelContainerForMuc(dataContainer, properties, config);
         System.out.println("Total MB: " + (double) (Runtime.getRuntime().totalMemory()) / 1024 / 1024);
         System.out.println("Used MB: " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024);
-
         SiloModel model = new SiloModel(properties, dataContainer, modelContainer);
         model.addResultMonitor(new MultiFileResultsMonitorMuc(dataContainer, properties));
         model.addResultMonitor(new ModalSharesResultMonitor(dataContainer, properties));

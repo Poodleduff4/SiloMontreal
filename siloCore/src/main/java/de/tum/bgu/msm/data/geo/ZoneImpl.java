@@ -4,6 +4,7 @@ import de.tum.bgu.msm.data.Region;
 import de.tum.bgu.msm.data.Zone;
 import de.tum.bgu.msm.data.development.Development;
 import de.tum.bgu.msm.utils.SeededRandomPointsBuilder;
+import org.geotools.feature.simple.SimpleFeatureImpl;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;

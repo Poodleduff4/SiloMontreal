@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Arrays;
 
 /**
  * Implements car ownership of initial synthetic population (base year) for the Munich Metropolitan Area
@@ -68,8 +69,10 @@ public class CreateCarOwnershipModelMuc implements CreateCarOwnershipModel {
         double logDistanceToTransit = Math.log(zone.getPTDistance_m() + 1); // add 1 to avoid taking log of 0
         int areaType = zone.getAreaTypeSG().code();
 
-        double[] prob = calculator.calculate(license, workers, income, logDistanceToTransit, areaType);
-        final int numberOfAutos = SiloUtil.select(prob);
+        Double[] prob = calculator.calculate(license, workers, income, logDistanceToTransit, areaType);
+        final int numberOfAutos = SiloUtil.select(Arrays.stream(prob)
+                .mapToDouble(Double::doubleValue)
+                .toArray());
 
         hh.getVehicles().clear();
 

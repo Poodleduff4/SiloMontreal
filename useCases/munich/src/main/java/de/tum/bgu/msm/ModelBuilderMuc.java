@@ -101,7 +101,7 @@ public class ModelBuilderMuc {
 
         DriversLicenseModel driversLicenseModel = new DriversLicenseModelImpl(dataContainer, properties, new DefaultDriversLicenseStrategy(), SiloUtil.provideNewRandom());
 
-        EducationModel educationModel = new EducationModelMuc(dataContainer, properties, SiloUtil.provideNewRandom());
+//        EducationModel educationModel = new EducationModelMuc(dataContainer, properties, SiloUtil.provideNewRandom());
 
         EmploymentModel employmentModel = new EmploymentModelImpl(dataContainer, properties, SiloUtil.provideNewRandom());
 
@@ -158,7 +158,7 @@ public class ModelBuilderMuc {
                 birthModel, birthdayModel,
                 deathModel, marriageModel,
                 divorceModel, driversLicenseModel,
-                educationModel, employmentModel,
+                null, employmentModel,
                 leaveParentsModel, jobMarketUpdateModel,
                 construction, demolition, pricing, renovation,
                 constructionOverwrite, inOutMigration, movesModel, transportModel);
