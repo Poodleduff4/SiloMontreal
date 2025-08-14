@@ -50,6 +50,7 @@ public class SiloUtil {
         final String outputDirectory = properties.main.baseDirectory + "scenOutput/" + properties.main.scenarioName;
         createDirectoryIfNotExistingYet(outputDirectory);
         try {
+            logger.info("Path of properties file: " + propertiesPath);
             initLogging(outputDirectory);
         } catch (IOException e) {
             logger.warn("Cannot create logfiles.");

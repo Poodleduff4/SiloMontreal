@@ -1,8 +1,10 @@
 package de.tum.bgu.msm.properties.modules;
 
+import de.tum.bgu.msm.SiloModel;
 import de.tum.bgu.msm.data.person.PersonType;
 import de.tum.bgu.msm.properties.Properties;
 import de.tum.bgu.msm.properties.PropertiesUtil;
+import org.apache.log4j.Logger;
 
 import java.util.ResourceBundle;
 
@@ -35,10 +37,14 @@ public final class GeoProperties {
 
 
     public GeoProperties(ResourceBundle bundle) {
+        Logger logger = Logger.getLogger(GeoProperties.class);
+
         PropertiesUtil.newPropertySubmodule("Geo properties");
         zonalDataFile = PropertiesUtil.getStringProperty(bundle, "zonal.data.file", "input/zoneSystem.csv");
         zoneShapeFile = PropertiesUtil.getStringProperty(bundle, "zones.shapefile", "input/zonesShapefile/zones.shp" );
         countyCrimeFile = PropertiesUtil.getStringProperty(bundle, "crime.index", "input/crimeIndex.csv");
+        logger.error("zoneSystem path: " + zonalDataFile);
+        logger.error("zoneShapeFile path: " + zoneShapeFile);
 
         PropertiesUtil.newPropertySubmodule("Development properties");
         landUseAndDevelopmentFile = PropertiesUtil.getStringProperty(bundle, "development.file", "input/development.csv");

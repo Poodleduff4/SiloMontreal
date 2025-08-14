@@ -18,10 +18,13 @@ import de.tum.bgu.msm.properties.Properties;
 import de.tum.bgu.msm.schools.*;
 import de.tum.bgu.msm.utils.SiloUtil;
 import org.matsim.core.config.Config;
+import org.apache.log4j.Logger;
 
 public class DataBuilder {
+    static Logger logger;
 
     private DataBuilder() {
+        logger = Logger.getLogger(DataBuilder.class);
     }
 
     public static DataContainerWithSchools getModelDataForMuc(Properties properties, Config config) {
@@ -138,6 +141,7 @@ public class DataBuilder {
     static public void read(Properties properties, DataContainerWithSchools dataContainer){
 
         GeoDataReader reader = new GeoDataReaderMuc(dataContainer.getGeoData());
+//        logger.info("reader initialized");
         String pathShp = properties.main.baseDirectory + properties.geo.zoneShapeFile;
         String fileName = properties.main.baseDirectory + properties.geo.zonalDataFile;
         reader.readZoneCsv(fileName);

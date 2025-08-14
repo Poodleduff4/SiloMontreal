@@ -59,8 +59,11 @@ public final class Properties {
             e.printStackTrace();
         }
 
+        System.out.println("Start reading properties");
         main = new MainProperties(propFile.getParent(), bundle);
+        System.out.println("Main Properties read");
         transportModel = new TransportModelPropertiesModule(bundle);
+        System.out.println("transport properties read");
         geo = new GeoProperties(bundle);
         realEstate = new RealEstateProperties(bundle);
         householdData = new HouseholdDataProperties(bundle);

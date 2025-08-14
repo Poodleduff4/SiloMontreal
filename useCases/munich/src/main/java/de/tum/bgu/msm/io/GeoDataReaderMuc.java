@@ -45,6 +45,7 @@ public class GeoDataReaderMuc implements GeoDataReader {
 
     @Override
     public void readZoneCsv(String path) {
+        logger.info("ZONESYSTEM.CSV");
 //        TableDataSet zonalData = SiloUtil.readCSVfile(path);
         try {
             FileReader filereader = new FileReader(path);
@@ -62,9 +63,7 @@ public class GeoDataReaderMuc implements GeoDataReader {
             int lineNum = 0;
             csvReader.readNext();
             while ((next = csvReader.readNext()) != null) {
-//                if (lineNum == 0)
-//                    continue;
-                System.out.println(lineNum);
+                logger.warn(lineNum);
                 zoneIds[lineNum] = Integer.parseInt(next[0]);
                 zoneAreas[lineNum] = Float.parseFloat(next[1]);
                 ptDistances[lineNum] = Double.parseDouble(next[2]);
@@ -72,7 +71,7 @@ public class GeoDataReaderMuc implements GeoDataReader {
                 regionColumn[lineNum] = Integer.parseInt(next[4]);
                 lineNum++;
             }
-            System.out.println("lines read: " + lineNum);
+            logger.info("lines read: " + lineNum);
 
 
             for (int i = 0; i < zoneIds.length; i++) {
@@ -95,6 +94,7 @@ public class GeoDataReaderMuc implements GeoDataReader {
 
     @Override
     public void readZoneShapefile(String path) {
+        logger.warn("SALAAAM");
         if (path == null) {
             logger.error("No shape file found!");
             throw new RuntimeException("No shape file found!");
@@ -112,8 +112,13 @@ public class GeoDataReaderMuc implements GeoDataReader {
             SimpleFeatureCollection features = featureSource.getFeatures();
             SimpleFeatureIterator iterator = features.features();
 
+            logger.warn("Reading features");
+
             try {
                 while (iterator.hasNext()) {
+//                    logger.info(counter + ": " + iterator.next().getAttributes().toString());
+//                    break;
+//                    logger.info();
                     SimpleFeature feature = iterator.next();
                     int zoneId = Integer.parseInt(feature.getAttribute(SHAPE_IDENTIFIER).toString());
                     Zone zone = geoDataMuc.getZones().get(zoneId);

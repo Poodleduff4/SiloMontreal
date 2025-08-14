@@ -16,13 +16,13 @@
 
     <modules>
         <module>munich</module>
-        <module>maryland</module>
-        <module>perth</module>
-        <module>kagawa</module>
-        <module>austin</module>
-        <module>capeTown</module>
-        <module>fabiland</module>
-        <module>bangkok</module>
+<!--        <module>maryland</module>-->
+<!--        <module>perth</module>-->
+<!--        <module>kagawa</module>-->
+<!--        <module>austin</module>-->
+<!--        <module>capeTown</module>-->
+<!--        <module>fabiland</module>-->
+<!--        <module>bangkok</module>-->
         <module>gtha</module>
     </modules>
 
@@ -31,12 +31,6 @@
             <groupId>de.tum.bgu.msm</groupId>
             <artifactId>siloCore</artifactId>
             <version>0.1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.tum.bgu.msm</groupId>
-            <artifactId>munich</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>de.tum.bgu.msm</groupId>-->

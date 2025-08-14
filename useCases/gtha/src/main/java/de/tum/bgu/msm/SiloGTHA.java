@@ -19,6 +19,8 @@ import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.households.Household;
 
+import java.util.Arrays;
+
 
 /**
  * Implements SILO for the Greater Toronto and Hamilton Area
@@ -35,6 +37,8 @@ public class SiloGTHA {
         System.out.println("Total MB: " + (double) (Runtime.getRuntime().maxMemory()) / 1024 / 1024);
         System.out.println("Used MB: " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024);
 
+        System.out.print("Args:");
+        System.out.println(Arrays.toString(args));
         Properties properties = SiloUtil.siloInitialization(args[0]);
 
         Config config = null;
@@ -43,10 +47,12 @@ public class SiloGTHA {
         }
         logger.info("Started SILO land use model for the Munich Metropolitan Area");
         DataContainerWithSchools dataContainer = DataBuilder.getModelDataForMuc(properties, config);
+        logger.info("Data container created");
         DataBuilder.read(properties, dataContainer);
+        logger.info("Data builder read");
         ModelContainer modelContainer = ModelBuilderMuc.getModelContainerForMuc(dataContainer, properties, config);
-        System.out.println("Total MB: " + (double) (Runtime.getRuntime().totalMemory()) / 1024 / 1024);
-        System.out.println("Used MB: " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024);
+        logger.info("Model container done");
+
         SiloModel model = new SiloModel(properties, dataContainer, modelContainer);
         model.addResultMonitor(new MultiFileResultsMonitorMuc(dataContainer, properties));
         model.addResultMonitor(new ModalSharesResultMonitor(dataContainer, properties));
