@@ -1,6 +1,7 @@
 package de.tum.bgu.msm.models.carOwnership;
 
-import de.tum.bgu.msm.util.js.JavaScriptCalculator;
+//import de.tum.bgu.msm.util.js.JavaScriptCalculator;
+import de.tum.bgu.msm.utils.JavaScriptCalculator;
 
 import java.io.Reader;
 

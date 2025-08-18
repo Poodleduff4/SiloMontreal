@@ -29,13 +29,14 @@ import org.matsim.pt.transitSchedule.api.TransitSchedule;
 import org.matsim.vehicles.Vehicles;
 import org.matsim.core.router.speedy.SpeedyDijkstraFactory;
 
+
 import java.util.Collection;
 import java.util.Set;
 
 public final class MatsimData {
 
     private LeastCostPathCalculatorFactory leastCostPathCalculatorFactory;
-    private LeastCostPathCalculatorFactory multiNodeFactory = new SpeedyDijkstraFactory();
+    private LeastCostPathCalculatorFactory multiNodeFactory = new FastMultiNodeDijkstraFactory();
 
     private SwissRailRaptorData raptorData;
     private SwissRailRaptorData raptorDataOneToAll;
@@ -84,6 +85,7 @@ public final class MatsimData {
         this.nThreads = threads;
         this.schedule = schedule;
         this.zoneConnectorManager = zoneConnectorManager;
+	//cleanNetwork(network);
         filterNetwork(network);
     }
 
@@ -95,7 +97,12 @@ public final class MatsimData {
         this.nThreads = threads;
         this.schedule = schedule;
         this.zoneConnectorManager = zoneConnectorManager;
+	//cleanNetwork(network);
         filterNetwork(network);
+    }
+	
+    public void cleanNetwork(Network network) {
+        NetworkUtils.runNetworkCleaner(network);
     }
 
     public void filterNetwork(Network network) {
