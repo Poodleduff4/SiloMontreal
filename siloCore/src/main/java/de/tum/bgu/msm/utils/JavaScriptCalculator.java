@@ -18,6 +18,7 @@ public abstract class JavaScriptCalculator<T> {
     protected Invocable invocable;
 
     protected JavaScriptCalculator(Reader reader) {
+        debugAvailableEngines();
         logger.debug("Reading script...");
         String script = this.readScript(reader);
         logger.debug("Compiling script: " + script);
@@ -52,6 +53,7 @@ public abstract class JavaScriptCalculator<T> {
         // Try GraalVM JavaScript first with options to suppress warnings
         engine = manager.getEngineByName("graal.js");
         if (engine != null) {
+            System.out.println("Found graal.js engine");
             // Configure GraalVM options to suppress compilation warnings
             try {
                 engine.eval("Polyglot.evalFile = undefined;"); // Disable some features that trigger warnings
@@ -109,4 +111,37 @@ public abstract class JavaScriptCalculator<T> {
             throw new RuntimeException(e);
         }
     }
+
+    private void debugAvailableEngines() {
+        ScriptEngineManager manager = new ScriptEngineManager();
+
+        System.out.println("=== Available Script Engines ===");
+        if (manager.getEngineFactories().isEmpty()) {
+            System.out.println("No script engines found!");
+        } else {
+            for (var factory : manager.getEngineFactories()) {
+                System.out.println("Engine: " + factory.getEngineName());
+                System.out.println("  Version: " + factory.getEngineVersion());
+                System.out.println("  Language: " + factory.getLanguageName());
+                System.out.println("  Names: " + String.join(", ", factory.getNames()));
+                System.out.println("  Extensions: " + String.join(", ", factory.getExtensions()));
+                System.out.println("  MIME types: " + String.join(", ", factory.getMimeTypes()));
+                System.out.println("---");
+            }
+        }
+
+        // Test specific engine names
+        String[] testEngines = {"graal.js", "js", "javascript", "nashorn", "rhino"};
+        System.out.println("=== Testing Specific Engine Names ===");
+        for (String engineName : testEngines) {
+            ScriptEngine engine = manager.getEngineByName(engineName);
+            System.out.println(engineName + ": " + (engine != null ? "FOUND" : "NOT FOUND"));
+            if (engine != null) {
+                System.out.println("  Class: " + engine.getClass().getName());
+                System.out.println("  Compilable: " + (engine instanceof Compilable));
+            }
+        }
+    }
+
+
 }

@@ -9,6 +9,8 @@ import de.tum.bgu.msm.io.MultiFileResultsMonitorMuc;
 import de.tum.bgu.msm.io.output.HouseholdSatisfactionMonitor;
 import de.tum.bgu.msm.io.output.ModalSharesResultMonitor;
 import de.tum.bgu.msm.io.output.MultiFileResultsMonitor;
+import de.tum.bgu.msm.models.carOwnership.CarOwnershipJSCalculatorMuc;
+import de.tum.bgu.msm.models.carOwnership.UpdateCarOwnershipModelMuc;
 import de.tum.bgu.msm.properties.Properties;
 import de.tum.bgu.msm.schools.DataContainerWithSchools;
 import de.tum.bgu.msm.DataBuilder;
@@ -19,6 +21,8 @@ import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.households.Household;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Arrays;
 
 
@@ -45,21 +49,26 @@ public class SiloGTHA {
         if (args.length > 1 && args[1] != null) {
             config = ConfigUtils.loadConfig(args[1]);
         }
-        logger.info("Started SILO land use model for the Munich Metropolitan Area");
-        DataContainerWithSchools dataContainer = DataBuilder.getModelDataForMuc(properties, config);
-        logger.info("Data container created");
-        DataBuilder.read(properties, dataContainer);
-        logger.info("Data builder read");
-        ModelContainer modelContainer = ModelBuilderMuc.getModelContainerForMuc(dataContainer, properties, config);
-        logger.info("Model container done");
+//        logger.info("Started SILO land use model for the Munich Metropolitan Area");
+//        DataContainerWithSchools dataContainer = DataBuilder.getModelDataForMuc(properties, config);
+//        logger.info("Data container created");
+//        DataBuilder.read(properties, dataContainer);
+//        logger.info("Data builder read");
+//        ModelContainer modelContainer = ModelBuilderMuc.getModelContainerForMuc(dataContainer, properties, config);
+//        logger.info("Model container done");
 
-        SiloModel model = new SiloModel(properties, dataContainer, modelContainer);
-        model.addResultMonitor(new MultiFileResultsMonitorMuc(dataContainer, properties));
-        model.addResultMonitor(new ModalSharesResultMonitor(dataContainer, properties));
-        model.addResultMonitor(new HouseholdSatisfactionMonitor(dataContainer, properties, modelContainer));
-        System.out.println("Total MB: " + (double) (Runtime.getRuntime().totalMemory()) / 1024 / 1024);
-        System.out.println("Used MB: " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024);
-        model.runModel();
-        logger.info("Finished SILO.");
+        System.out.println("BEFORE JAVASCRIPTCALCULATOR");
+        Reader reader = new InputStreamReader(UpdateCarOwnershipModelMuc.class.getResourceAsStream("UpdateCarOwnershipCalc"));
+        CarOwnershipJSCalculatorMuc calculator = new CarOwnershipJSCalculatorMuc(reader);
+        System.out.println("AFTER JAVASCRIUPTCAUCLYATOR");
+
+//        SiloModel model = new SiloModel(properties, dataContainer, modelContainer);
+//        model.addResultMonitor(new MultiFileResultsMonitorMuc(dataContainer, properties));
+//        model.addResultMonitor(new ModalSharesResultMonitor(dataContainer, properties));
+//        model.addResultMonitor(new HouseholdSatisfactionMonitor(dataContainer, properties, modelContainer));
+//        System.out.println("Total MB: " + (double) (Runtime.getRuntime().totalMemory()) / 1024 / 1024);
+//        System.out.println("Used MB: " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024);
+//        model.runModel();
+//        logger.info("Finished SILO.");
     }
 }

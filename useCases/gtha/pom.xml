@@ -128,21 +128,35 @@
             <artifactId>google-or-tools</artifactId>
             <version>6.7.2</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.matsim.contrib</groupId>-->
-<!--            <artifactId>emissions</artifactId>-->
-<!--            <version>${matsimVersion}</version>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>javax.media</groupId>-->
-<!--                    <artifactId>jai_core</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <groupId>jgridshift</groupId>-->
-<!--                    <artifactId>jgridshift</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.graalvm.js</groupId>
+            <artifactId>js</artifactId>
+            <version>23.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.js</groupId>
+            <artifactId>js-scriptengine</artifactId>
+            <version>22.3.3</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mozilla</groupId>
+            <artifactId>rhino</artifactId>
+            <version>1.7.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mozilla</groupId>
+            <artifactId>rhino-engine</artifactId>
+            <version>1.7.14</version>
+        </dependency>
+
+        <!-- Optional: Add Nashorn for Java 15+ -->
+        <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+            <version>15.4</version>
+        </dependency>
         <dependency>
             <groupId>de.tum.bgu.msm</groupId>
             <artifactId>matsim2silo</artifactId>
