@@ -27,7 +27,7 @@ import de.tum.bgu.msm.models.realEstate.construction.*;
 import de.tum.bgu.msm.models.realEstate.demolition.*;
 import de.tum.bgu.msm.models.realEstate.pricing.*;
 import de.tum.bgu.msm.models.realEstate.renovation.*;
-import de.tum.bgu.msm.models.relocation.DwellingUtilityStrategyImpl;
+import de.tum.bgu.msm.models.relocation.moves.DwellingUtilityStrategyImpl;
 import de.tum.bgu.msm.models.relocation.*;
 import de.tum.bgu.msm.models.relocation.migration.*;
 import de.tum.bgu.msm.models.relocation.moves.*;

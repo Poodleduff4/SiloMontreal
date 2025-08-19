@@ -46,7 +46,7 @@ import de.tum.bgu.msm.models.realEstate.pricing.PricingModelImpl;
 import de.tum.bgu.msm.models.realEstate.renovation.DefaultRenovationStrategy;
 import de.tum.bgu.msm.models.realEstate.renovation.RenovationModel;
 import de.tum.bgu.msm.models.realEstate.renovation.RenovationModelImpl;
-import de.tum.bgu.msm.models.relocation.DwellingUtilityStrategyImpl;
+import de.tum.bgu.msm.models.relocation.moves.DwellingUtilityStrategyImpl;
 import de.tum.bgu.msm.models.relocation.HousingStrategyMuc;
 import de.tum.bgu.msm.models.relocation.InOutMigrationMuc;
 import de.tum.bgu.msm.models.relocation.RegionUtilityStrategyMucImpl;
