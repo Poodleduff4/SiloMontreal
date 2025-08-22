@@ -121,7 +121,7 @@ public class SimpleCommuteModeChoiceMatsimScenarioAssembler implements MatsimSce
 
                 Dwelling dwelling = realEstateDataManager.getDwelling(household.getDwellingId());
                 CommuteModeChoiceMapping commuteModeChoiceMapping = commuteModeChoice.assignCommuteModeChoice(dwelling, travelTimes, household);
-		if(commuteModeChoiceMapping.getMode(person) == null) {
+		        if(commuteModeChoiceMapping.getMode(person) == null) {
                     CommuteModeChoiceMapping.CommuteMode ptCommuteMode = new CommuteModeChoiceMapping.CommuteMode(TransportMode.pt, 1);
                     commuteModeChoiceMapping.assignMode(ptCommuteMode, person);
                 }

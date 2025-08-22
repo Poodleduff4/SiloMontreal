@@ -244,7 +244,7 @@ public class HousingStrategyMuc implements HousingStrategy {
         CommuteModeChoiceMapping commuteModeChoiceMapping = commuteModeChoice.assignRegionalCommuteModeChoice(region, travelTimes, household);
 
         for (Person pp : household.getPersons().values()) {
-            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -2) {
+            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -1) {
                 thisRegionFactor *= commuteModeChoiceMapping.getMode(pp).utility;
             }
         }
