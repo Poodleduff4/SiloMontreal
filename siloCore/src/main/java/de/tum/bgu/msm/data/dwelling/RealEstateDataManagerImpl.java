@@ -457,7 +457,7 @@ public class RealEstateDataManagerImpl implements RealEstateDataManager {
         try {
             FileReader filereader = new FileReader(baseDirectory + Properties.get().geo.landUseAndDevelopmentFile);
             CSVReader csvReader = new CSVReader(filereader);
-            int numZones = 5540;
+            int numZones = 1336;
             int[] zoneIds = new int[numZones]; // = zonalData.getColumnAsInt(ZONE_ID_COLUMN);
             Map<DwellingType, int[]> constraintData = new HashMap<>();
             int[] dwellingCapacityData = new int[numZones];
@@ -475,8 +475,6 @@ public class RealEstateDataManagerImpl implements RealEstateDataManager {
                 System.out.println(zoneIds[lineNum]);
                 System.out.println(Arrays.toString(next));
                 if(geoData.getZones().containsKey(zoneIds[lineNum])) {
-                    System.out.println("Contained");
-
                     Map<DwellingType, Boolean> constraints = new HashMap<>();
                     for (DwellingType dwellingType : dwellingTypes.getTypes()) {
                         constraints.put(dwellingType, true);

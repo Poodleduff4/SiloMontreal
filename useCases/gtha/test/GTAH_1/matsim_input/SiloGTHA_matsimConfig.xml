@@ -2,7 +2,7 @@
 <!DOCTYPE config SYSTEM "https://www.matsim.org/files/dtd/config_v2.dtd">
 <config>
     <module name="global" >
-        <param name="numberOfThreads" value="16" />
+        <param name="numberOfThreads" value="32" />
         <param name="coordinateSystem" value="EPSG:7991" />
     </module>
 
@@ -29,14 +29,14 @@
     <module name="qsim" >
         <param name="trafficDynamics" value="withHoles" />
         <!-- Note that this setting is independent from the "global" threads setting -->
-        <param name="numberOfThreads" value="16" />
+        <param name="numberOfThreads" value="32" />
         <param name="flowCapacityFactor" value="0.01" />
         <param name="storageCapacityFactor" value="0.01" />
         <param name="mainMode" value="car" />
     </module>
 
     <module name="eventsManager" >
-        <param name="numberOfThreads" value="16" />
+        <param name="numberOfThreads" value="32" />
     </module>
 
     <module name="scoring" >

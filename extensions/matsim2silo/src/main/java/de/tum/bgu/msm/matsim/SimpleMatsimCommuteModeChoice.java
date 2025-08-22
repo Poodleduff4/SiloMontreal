@@ -54,7 +54,7 @@ public class SimpleMatsimCommuteModeChoice implements CommuteModeChoice {
         TreeMap<Double, Person> personByProbability = new TreeMap<>();
 
         for (Person pp : household.getPersons().values()) {
-            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -2) {
+            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -1) {
 
                 Job job = jobDataManager.getJobFromId(pp.getJobId());
 
@@ -119,7 +119,7 @@ public class SimpleMatsimCommuteModeChoice implements CommuteModeChoice {
 
 
         for (Person pp : household.getPersons().values()) {
-            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -2) {
+            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -1) {
 
                 Job job = jobDataManager.getJobFromId(pp.getJobId());
                 Zone jobZone = geoData.getZones().get(job.getZoneId());

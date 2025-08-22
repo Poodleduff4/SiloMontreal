@@ -142,7 +142,7 @@ public class SimpleCommuteModeChoiceHousingStrategyImpl implements HousingStrate
         hh.setAttribute("COMMUTE_MODE_CHOICE_MAPPING", commuteModeChoiceMapping);
 
         for (Person pp : hh.getPersons().values()) {
-            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -2) {
+            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -1) {
 
                 workDistanceUtility *= commuteModeChoiceMapping.getMode(pp).utility;
 
@@ -175,7 +175,7 @@ public class SimpleCommuteModeChoiceHousingStrategyImpl implements HousingStrate
         CommuteModeChoiceMapping commuteModeChoiceMapping = commuteModeChoice.assignRegionalCommuteModeChoice(region, travelTimes, household);
 
         for (Person pp : household.getPersons().values()) {
-            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -2) {
+            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -1) {
                 thisRegionFactor *= commuteModeChoiceMapping.getMode(pp).utility;
             }
         }

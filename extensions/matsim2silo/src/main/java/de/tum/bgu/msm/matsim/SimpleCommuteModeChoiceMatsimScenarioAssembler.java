@@ -109,7 +109,7 @@ public class SimpleCommuteModeChoiceMatsimScenarioAssembler implements MatsimSce
             }
 
             for (Person person : household.getPersons().values()) {
-                if (person.getOccupation() != Occupation.EMPLOYED || person.getJobId() == -2) { // i.e. person does not work
+                if (person.getOccupation() != Occupation.EMPLOYED || person.getJobId() == -1) { // i.e. person does not work
                     continue;
                 }
 
@@ -121,6 +121,10 @@ public class SimpleCommuteModeChoiceMatsimScenarioAssembler implements MatsimSce
 
                 Dwelling dwelling = realEstateDataManager.getDwelling(household.getDwellingId());
                 CommuteModeChoiceMapping commuteModeChoiceMapping = commuteModeChoice.assignCommuteModeChoice(dwelling, travelTimes, household);
+		if(commuteModeChoiceMapping.getMode(person) == null) {
+                    CommuteModeChoiceMapping.CommuteMode ptCommuteMode = new CommuteModeChoiceMapping.CommuteMode(TransportMode.pt, 1);
+                    commuteModeChoiceMapping.assignMode(ptCommuteMode, person);
+                }
 
                 String mode = commuteModeChoiceMapping.getMode(person).mode;
 

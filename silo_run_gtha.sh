@@ -2,7 +2,7 @@
 #SBATCH --time=12:00:00
 #SBATCH --account=def-bfarooq
 #SBATCH --mem=128g
-#SBATCH --cpus-per-task=16
+#SBATCH --cpus-per-task=32
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=samuel.guardino@torontomu.ca
 

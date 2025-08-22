@@ -143,7 +143,7 @@ public class SimpleCommuteModeChoice implements CommuteModeChoice {
 
 
         for (Person pp : household.getPersons().values()) {
-            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -2) {
+            if (pp.getOccupation() == Occupation.EMPLOYED && pp.getJobId() != -1) {
 
                 Job job = jobDataManager.getJobFromId(pp.getJobId());
                 Zone jobZone = geoData.getZones().get(job.getZoneId());
