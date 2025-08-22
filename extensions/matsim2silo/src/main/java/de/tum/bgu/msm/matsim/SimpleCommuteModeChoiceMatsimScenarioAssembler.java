@@ -99,7 +99,8 @@ public class SimpleCommuteModeChoiceMatsimScenarioAssembler implements MatsimSce
 
         JobDataManager jobDataManager = dataContainer.getJobDataManager();
         RealEstateDataManager realEstateDataManager = dataContainer.getRealEstateDataManager();
-
+        System.out.println("Starting actual matsim scenario population creation.");
+        int numPoeple = 0;
         for (Household household: dataContainer.getHouseholdDataManager().getHouseholds()) {
 //            if (SiloUtil.getRandomNumberAsDouble() > populationScalingFactor) {
             if ( random.nextDouble() > populationScalingFactor ) {
@@ -112,6 +113,7 @@ public class SimpleCommuteModeChoiceMatsimScenarioAssembler implements MatsimSce
                 if (person.getOccupation() != Occupation.EMPLOYED || person.getJobId() == -1) { // i.e. person does not work
                     continue;
                 }
+                numPoeple++;
 
                 PopulationFactory pf = matsimPopulation.getFactory();
 
@@ -149,6 +151,7 @@ public class SimpleCommuteModeChoiceMatsimScenarioAssembler implements MatsimSce
                 }
             }
         }
+        System.out.println("Finished creating MATSim scenario. With " + numPoeple + " people.");
         logger.info("Finished creating MATSim scenario.");
         return scenario;
     }
