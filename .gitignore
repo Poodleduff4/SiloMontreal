@@ -1,0 +1,5 @@
+*.log
+*.out
+*target/
+useCases/gtha/test/*
+

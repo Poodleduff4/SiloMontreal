@@ -1,8 +1,9 @@
 #!/bin/bash
-#SBATCH --time=12:00:00
 #SBATCH --account=def-bfarooq
+#SBATCH --nodes=1
+#SBATCH --time=1-00:00:00
 #SBATCH --mem=128g
-#SBATCH --cpus-per-task=32
+#SBATCH --cpus-per-task=8
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=samuel.guardino@torontomu.ca
 
